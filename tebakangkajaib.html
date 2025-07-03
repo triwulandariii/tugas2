@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tebak Angka Ajaib</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f8ff;
+      color: #333;
+      text-align: center;
+      padding: 50px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="number"] {
+      padding: 10px;
+      width: 80%;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #218838;
+    }
+
+    #resetBtn {
+      background: #6c757d;
+      margin-left: 10px;
+    }
+
+    #message {
+      font-size: 18px;
+      margin-top: 20px;
+      min-height: 30px;
+    }
+
+    #attempts {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔢 Tebak Angka Ajaib</h1>
+    <p>Masukkan angka antara <strong>1</strong> sampai <strong>100</strong>:</p>
+    <input type="number" id="guess" min="1" max="100" />
+    <br />
+    <button onclick="checkGuess()">Tebak!</button>
+    <button id="resetBtn" onclick="resetGame()">Reset</button>
+
+    <div id="message"></div>
+    <p>Jumlah percobaan: <span id="attempts">0</span></p>
+  </div>
+
+  <script>
+    let secretNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+
+    function checkGuess() {
+      const guessInput = document.getElementById("guess");
+      const message = document.getElementById("message");
+      const attemptsDisplay = document.getElementById("attempts");
+      const guess = parseInt(guessInput.value);
+
+      if (isNaN(guess) || guess < 1 || guess > 100) {
+        message.textContent = "⚠ Masukkan angka valid antara 1 dan 100!";
+        message.style.color = "red";
+        return;
+      }
+
+      attempts++;
+      attemptsDisplay.textContent = attempts;
+
+      if (guess === secretNumber) {
+        message.textContent = `🎉 Selamat! ${guess} adalah angka yang benar!`;
+        message.style.color = "green";
+      } else if (guess < secretNumber) {
+        message.textContent = "📉 Terlalu kecil! Coba angka yang lebih besar.";
+        message.style.color = "orange";
+      } else {
+        message.textContent = "📈 Terlalu besar! Coba angka yang lebih kecil.";
+        message.style.color = "orange";
+      }
+    }
+
+    function resetGame() {
+      secretNumber = Math.floor(Math.random() * 100) + 1;
+      attempts = 0;
+      document.getElementById("guess").value = "";
+      document.getElementById("message").textContent = "";
+      document.getElementById("attempts").textContent = attempts;
+    }
+  </script>
+</body>
+</html>
